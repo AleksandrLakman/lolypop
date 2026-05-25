@@ -1,7 +1,7 @@
 <?php
 
-    require 'dump/albums.php';
-    require 'dump/tracks.php';
+    require 'albums.php';
+    require 'tracks.php';
 
     echo "<ol>";
 
@@ -22,6 +22,6 @@
         echo "</li>";
     }
 
-    echo "/ol>";
+    echo "</ol>";
 
     ?>

@@ -20,9 +20,9 @@
 
 		foreach ($content as $item) {
 
-			if (isset($item[$term]) && $item[term] == $value) {
+			if  ($item[$term] == $value) {
 				
-				echo "id: " . $item['id'] . "<br /> // id_personnel\n";
+				echo "id: " . $item['id_personnel'] . "<br /> // id_personnel\n";
 				echo "Фамилия: " . $item['surname'] . "<br /> // surname\n";
 				echo "Имя: " . $item['name'] . "<br /> // name\n";
 				echo "Отчество: " . $item['patronymic'] . "<br /> // patronymic\n";
