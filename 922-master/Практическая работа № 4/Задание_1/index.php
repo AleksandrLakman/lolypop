@@ -10,13 +10,13 @@
     <?php
     
         echo "Введите значение a (0 или 1): ";
-        $a = (int) trim(fgets(STDIN));
+        $a = 0;
 
         echo "Введите значение b (0 или 1): ";
-        $b = (int) trim(fgets(STDIN));
+        $b = 1;
 
         echo "Введите значение c (0 или 1): ";
-        $c = (int) trim(fgets(STDIN));
+        $c = 1;
 
         if ($a == 0 && $b == 0 && $c == 1) {
             $q = 1;
