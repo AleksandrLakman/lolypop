@@ -10,19 +10,21 @@
 	<h2>Отправка данных в строке запроса</h2>
 	
 	<?php
-		// ссылки с GET-параметрами
-		// ссылки указывают на файл условного сервера server.php
+// Создаем массив данных для каждой ссылки
+$samples = [
+    ['topic' => 1, 'lesson' => 1],
+    ['topic' => 2, 'lesson' => 3],
+    ['topic' => 3, 'lesson' => 2],
+];
 
-		// ссылка 1
-		echo "<a href='server.php/?user=timaty&topic=1&lesson=4'>Ссылка 1</a><p>";
-
-		// ссылка 2
-		echo "<a href='server.php/?user=tommy&topic=2&lesson=1'>Ссылка 2</a><p>";
-		
-		// ссылка 3
-		echo "<a href='server.php/?user=tommy&topic=3&lesson=1'>Ссылка 3</a><p>";
-	?>
-	
-
+foreach ($samples as $sample) {
+    // Кодируем массив как JSON
+    $json_str = json_encode($sample);
+    // Кодируем для передачи через URL
+    $encoded = urlencode($json_str);
+    // Генерируем ссылку
+    echo "<a href='server.php?data={$encoded}'>Ссылка</a><p>";
+}
+?>
 </body>
 </html>

@@ -10,53 +10,48 @@
 	<h2>Отправка данных в строке запроса</h2>
 	
 	<?php
-		// инициализация массива
-		$course = [
-			[
-				"Основы программирования", 
-				["Введение в PHP", "Переменные", "Константы", "Типы данных", "Строки"]
-			],		
-			[
-				"Функции",
-				["Встроенные функции", "Пользовательские функции", "Область видимости переменных"]
-			],
-			[
-				"Управляющие конструкции",
-				["Условные операторы", "Циклы", "Конструкции"]
-			]
-		];
+// Инициализация массива
+$course = [
+    [
+        "Основы программирования", 
+        ["Введение в PHP", "Переменные", "Константы", "Типы данных", "Строки"]
+    ],
+    [
+        "Функции",
+        ["Встроенные функции", "Пользовательские функции", "Область видимости переменных"]
+    ],
+    [
+        "Управляющие конструкции",
+        ["Условные операторы", "Циклы", "Конструкции"]
+    ]
+];
 
-		// вывод данных из массива $course согласно переданных параметров
-		$user = $_GET['user'] ?? null;
-		$topicIndex = isset($_GET['topic']) ?
-		(int)$_GET['topic'] - 1 : null;
-		$lessonIndex = isset($_GET['lesson']) ?
-		(int)$_GET['lesson'] : null;
+// Получение строки JSON из GET
+if (isset($_GET['data'])) {
+    $json_str = urldecode($_GET['data']);
+    $params = json_decode($json_str, true); // true - чтобы получить массив
 
-		if ($usser === null || $topicIndex === null || $lessonIndex === null) {
-			echo "<p>Ошибка: не переданы все необходимые параметры (user, topic, lesson). </p>";
+    // Проверка и использование данных
+    if (is_array($params) && isset($params['topic'], $params['lesson'])) {
+        $topic_index = (int)$params['topic'] - 1;
+        $lesson_index = (int)$params['lesson'] - 1;
 
-		} elseif (!isset($course[$topicIndex]))
-		{
-			echo "<p> Ошибка: тема с индексом" . ($topicIndex + 1) . "не существует. </p>";
-		} else {
-			$topicData = $course[$topicIndex];
-			$topicName = $topicData[0];
-			$leasson = $topicData[1];
-		}
-			
+        if (isset($course[$topic_index]) && isset($course[$topic_index][1][$lesson_index])) {
+            $topic_name = $course[$topic_index][0];
+            $lesson_name = $course[$topic_index][1][$lesson_index];
 
-			if (!isset($lesson[$lessonIndex])) 
-		{
-				echo "<p>Ошибка: урока с индексом $lessonIndex в теме '$topicName' не существует. </p>";
-		} else {
-			$lessonName = $lesson[$lessonIndex];
-								echo "</p>Пользователь $user запросил материал: </p>";
-								echo "</p>Тема: $topicName</p>";
-								echo "</p>Урок: $lessonName</p>";
-		}
-	
-	?>
+            echo "<h3>Вы выбрали тему: $topic_name</h3>";
+            echo "<p>Урок: $lesson_name</p>";
+        } else {
+            echo "<p>Некорректные параметры или темы/урока не существует.</p>";
+        }
+    } else {
+        echo "<p>Некорректный формат данных.</p>";
+    }
+} else {
+    echo "<p>Параметр data не передан.</p>";
+}
+?>
 	
 
 </body>

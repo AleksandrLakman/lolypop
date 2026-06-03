@@ -12,7 +12,7 @@
         echo "Решение квадратного уравнения: a*x^2 + b*x + c = 0\n"; 
         echo "Введите a: ";
 
-        $a = (float) trim(fgets(STDIN));
+        $a = 1;
 
         if ($a == 0) {
             echo "Ошибка: коэффицент 'a' не может быть равен 0 ()уравнение не квадратное). \n";
@@ -20,10 +20,10 @@
         }
 
         echo "Введите b: ";
-        $b = (float) trim(fgets(STDIN));
+        $b = 2;
 
         echo "Введите c: ";
-        $c = (float) trim(fgets(STDIN));
+        $c = 3;
 
         $D = $b * $b - 4 * $a * $c;
 

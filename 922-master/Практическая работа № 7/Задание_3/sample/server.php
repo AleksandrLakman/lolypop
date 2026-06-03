@@ -12,9 +12,22 @@
 	<h2>Информация полученная из строки запроса</h2>
 	
 	<?php
-		echo "<pre>";
-		print_r($_GET['educations']);		
-	?>
+if (isset($_GET['data'])) {
+    $json_str = urldecode($_GET['data']);
+    $educations = json_decode($json_str, true);
+
+    if (is_array($educations)) {
+        echo "<h2>Полученные данные об образовании:</h2>";
+        echo "<pre>";
+        print_r($educations);
+        echo "</pre>";
+    } else {
+        echo "<p>Ошибка декодирования JSON.</p>";
+    }
+} else {
+    echo "<p>Параметр data не передан.</p>";
+}
+?>
 
 
 </body>
