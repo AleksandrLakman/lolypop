@@ -11,8 +11,15 @@
 	<?php
 		require "teams.php";
 
-		// ...
-	
+		if (isset($_GET['id']) || empty($_GET['id'])) {
+    	foreach ($content as $team) {
+        echo "<h3>{$team['name']}</h3>";
+        echo "<p>Страна: {$team['country']}</p>";
+        echo "<p>Год основания: {$team['date']}</p>";
+        echo "<p>Стиль: {$team['style']}</p>";
+	}}
+	else;
+		echo "ошибка";
 	?>
 	
 

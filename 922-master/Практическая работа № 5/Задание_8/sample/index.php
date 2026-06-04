@@ -5,13 +5,7 @@
 	<title>Программирование на языке PHP</title>
 </head>
 <body>
-	
-	<h1>Функции</h1>
-	<h2>Встроенные функции, часть 2</h2>
-	<hr>
-	<h2>Многомерные массивы</h2>
 
-	
 	<?php
 
 		$albums = [
@@ -38,18 +32,26 @@
 
 		foreach ($albums as $item) {
 		
-			$out .= "
-				<h4>{$item['album_name']} (id={$item['id']})</h4>
+			$item['status'] = explode(', ', $item['status']);
+
+			echo "
+				<h3>{$item['album_name']} (id={$item['id']})</h3>
 				Дата выпуска: {$item['date']} <br />
 				Лейбл: {$item['label']} <br />
 				Формат: {$item['format']} <br />
-				Статус: {$item['status']} <br /><p>
+				Статус:
 			";
-		}
-		
-		echo $out;
-	?>
 
+			echo "<ul>";
+			foreach ($item['status'] as $status) {
+				echo "<li>" . htmlspecialchars(trim($status)) . "</li>";
+			}
+			echo "</ul><br /><p>";
+
+			echo "<hr />";
+		}
+
+	?>
 
 </body>
 </html>
