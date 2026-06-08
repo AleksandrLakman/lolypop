@@ -7,16 +7,21 @@
 </head>
 <body>
     <?php
-    
+
+    $assoc_array = [ 
+		"name" => "Мастер и Маргарита",
+		"author" => "М.Булгаков",
+		"year" => 1940,
+		"genre" => "Мистика",
+		"bestseller" => true
+	];
+
 require 'array.php';
 
-$jsonString = '[
-    "Мастер и Маргарита",
-    "М.Булгаков",
-    1940,
-    "Мистика",
-    true
-]';
+$jsonString = json_encode($assoc_array);
+
+echo "<h2>JSON строка</h2>";
+echo "<pre>{$jsonString}</pre>";
 
 $decodedArray = json_decode($jsonString, true);
 

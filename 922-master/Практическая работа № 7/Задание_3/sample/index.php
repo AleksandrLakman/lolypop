@@ -10,8 +10,7 @@
 	<h2>Отправка данных в строке запроса</h2>
 		
 	<?php
-		// исходный двумерный массив
-// исходный массив
+		
 $educations = array (
     array (
         'id' => 5, 
@@ -33,12 +32,11 @@ $educations = array (
     )
 );
 
-// Кодируем массив в JSON
+
 $json_data = json_encode($educations);
-// URL-кодируем JSON
+
 $encoded_data = urlencode($json_data);
 
-// Создаем ссылку
 echo "<a href='server.php?data={$encoded_data}'>Передать данные об образовании</a>";
 ?>
 
