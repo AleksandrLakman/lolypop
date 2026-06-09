@@ -9,19 +9,45 @@
 	<h1>Отправка данных на сервер</h1>
 	<h2>Отправка форм</h2>
 	
-	<?php
-		/* 
-		загружая форму, не забудьте передать GET-параметр view ...
-	
-		
-		?view=dump  -> отобразим данные формы объектом PHP
-		?view=json  -> отобразим данные формы объектом JSON
-		*/
+	<?php	
 
-		// ...
+
+echo "<pre><b>Данные массива GET</b><br />"; 
+print_r($_GET); 
+echo "</pre>"; 
+
+echo "<pre><b>Данные массива POST</b><br />"; 
+print_r($_POST); 
+echo "</pre>"; 
+if(isset($_GET['data']['role']) && 
+isset($_GET['data']['action']) && isset($_GET['mood'])){ 
+
+echo <<<HERE
+<h2>Полученные от пользователя данные массива 
+                                          
+                           
+                                             
+GET:</h2> 
+Роль: {$_GET['data']['role']} <br /> 
+Действие: {$_GET['data']['action']} <br /> 
+Настроение: {$_GET['mood']} 
+HERE; 
+} 
+if(isset($_POST['login']) && isset($_POST['email']) && 
+isset($_POST['pwd'])){ 
+
+echo <<<HERE
+<h2>Полученные от пользователя данные массива 
+POST:</h2> 
+Логин: {$_POST['login']} <br /> 
+E-mail: {$_POST['email']} <br /> 
+Пароль: {$_POST['pwd']} 
+HERE; 
+}
+		
 	?>
 
-	<form action="server.php?view=<?php // GET-параметр  ?>" method="post">
+	<form action="server.php?view=<?php echo htmlspecialchars($_GET['view'] ?? '') ?>" method="post">
 		Название: <input type="text" name="name"><p>
 		Алиас: <input type="text" name="alias"><p>
 		Страна: <input type="text" name="country"><p>

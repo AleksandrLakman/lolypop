@@ -102,25 +102,24 @@
 				]
 		];
 		
-		// перебираем элементы массива 
-		foreach ($albums as $key => $item) {
-			printf ("
-				Идентификатор: %s<br />
-				Название: %s<br />
-				Дата выпуска: %s<br />
-				Лейбл: %s<br />
-				Формат: %s<br />
-				Статус: %s<br />
-				<hr />
-			",
-				$item["id"],
-				$item["album_name"],
-				$item["date"],
-				$item["label"],
-				$item["format"],
-				$item["status"]
-			);
-		}
+        foreach ($albums as $key => $item) {
+            printf ("
+                Идентификатор: %s<br />
+                Название: %s<br />
+                Дата выпуска: %s<br />
+                Лейбл: %s<br />
+                Формат: %s<br />
+                Статус: %s<br />
+                <hr />
+                ",
+                $item["id"],
+                $item["album_name"],
+                $item["date"],
+                implode(", ", $item["label"]),
+                implode(", ", $item["format"]),
+                implode(", ", $item["status"])
+            );
+        }
 	?>
 
 

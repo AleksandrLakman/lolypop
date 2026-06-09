@@ -1,53 +1,69 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-	<meta charset="UTF-8">
-	<title>Программирование на языке PHP</title>
-</head>
-<body>
+<?php
+if (isset($_GET['search']) && !empty($_GET['search'])) {
 
-	<?php
+    $parts = explode('::', $_GET['search']);
+    
+    if (count($parts) < 2) {
+        echo "Ошибка: Неверный формат запроса. Используйте: ?search=сущность::id";
+        exit;
+    }
 
-		 "?search=teams::3";
-		 "?search=albums::5";
-		 "?search=tracks::10";
-		
-		require 'teams.php';
-		require 'albums.php';
-		require 'tracks.php';
+    $entity = trim($parts[0]);
+    $id = (int)$parts[1];
 
-		$searchValue = $_GET['search'];
-		$parts = explode('::', $searchValue);
-		$entity = $parts[0];
-		$id   = $parts[1] - 1;
+    $allowed_entities = ['teams', 'albums', 'tracks'];
+    if (!in_array($entity, $allowed_entities)) {
+        echo "Ошибка: Неизвестная сущность '$entity'. Допустимые значения: teams, albums, tracks.";
+        exit;
+    }
 
-		if ($entity === 'teams'){
-			echo '<h3>Информация о группе:</h3>';
-			echo 'ID: ', $$entity[$id]['id'],"</br>";
-			echo 'Название: ', $$entity[$id]['name'],"</br>";
-			echo 'Псевдоним: ', $$entity[$id]['alias'],"</br>";
-			echo 'Страна: ', $$entity[$id]['country'],"</br>";
-			echo 'Дата основания: ', $$entity[$id]['date'],"</br>";
-			echo 'Стиль: ', $$entity[$id]['style'],"</br>";
+    
+    $filePath = __DIR__ . '/dump/' . $entity . '.php';
 
-		} elseif ($entity === 'albums'){
-			echo '<h3>Информация об альбоме:</h3>';
-			echo 'ID: ', $$entity[$id]['id'],"</br>";
-			echo 'Название: ', $$entity[$id]['name'],"</br>";
-			echo 'Псевдоним: ', $$entity[$id]['alias'],"</br>";
-			echo 'Страна: ', $$entity[$id]['country'],"</br>";
-			echo 'Дата выпуска: ', $$entity[$id]['date'],"</br>";
-			echo 'Номер группы: ', $$entity[$id]['id_team'],"</br>";
+    if (file_exists($filePath)) {
+        
+        include $filePath;
 
-		} elseif ($entity === 'tracks'){
-			echo '<h3>Информация о треке:</h3>';
-			echo 'ID: ', $$entity[$id]['id'],"</br>";
-			echo 'Название: ', $$entity[$id]['name'],"</br>";
-			echo 'Номер альбома: ', $$entity[$id]['id_album'],"</br>";
-		}
+        
+        if (isset($content) && is_array($content)) {
+            $foundItem = null;
 
-	?>
-	
+            
+            foreach ($content as $item) {
+                if (isset($item['id']) && $item['id'] == $id) {
+                    $foundItem = $item;
+                    break;
+                }
+            }
 
-</body>
-</html>
+            if ($foundItem) {
+                $titles = [
+                    'teams' => 'группе',
+                    'albums' => 'альбоме',
+                    'tracks' => 'треке'
+                ];
+                $title = $titles[$entity] ?? $entity;
+
+                echo "<h3>Информация о " . htmlspecialchars($title) . " (ID $id):</h3>";
+                echo "<ul>";
+                foreach ($foundItem as $key => $value) {
+                    echo "<li><b>" . htmlspecialchars($key) . ":</b> " . htmlspecialchars($value) . "</li>";
+                }
+                echo "</ul>";
+            } else {
+                echo "Запись с ID $id в сущности '$entity' не найдена.";
+            }
+
+        } else {
+            echo "Ошибка: В файле $entity.php не найдена переменная \$content.";
+        }
+
+    } else {
+        echo "Ошибка: Файл <b>$entity.php</b> не найден в папке <b>" . __DIR__ . "/dump/</b>";
+    }
+
+} else {
+    echo "Пожалуйста, введите запрос в адресной строке.<br>";
+    echo "Пример: <b>?search=albums::3</b> или <b>?search=teams::2</b>";
+}
+?>
