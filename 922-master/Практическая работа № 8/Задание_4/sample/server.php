@@ -12,7 +12,7 @@ isset($_GET['data']['action']) && isset($_GET['mood'])){
 
 echo <<<HERE
 <h2>Полученные от пользователя данные массива 
-                                                                                  
+                                                                                     
 GET:</h2> 
 Роль: {$_GET['data']['role']} <br /> 
 Действие: {$_GET['data']['action']} <br /> 
@@ -35,6 +35,5 @@ $json= json_encode($_POST);
 
 $view = isset($_GET['view']) ? $_GET['view'] : '';
     print_r($json);
-
 
 ?>
