@@ -11,37 +11,43 @@
 	
 	<?php
 
-		
+		$_ERROR = array();
 		if (!empty(trim($_POST['login']))) {
-			$login = filter_var(trim($_POST['login']));
-			if (!preg_match("/^[a-zA-Z0-9]+$/", $login)) {
-				$_ERROR[]= "Логин ". $login. " невалиден";
+			$_POST['login'] = trim(htmlspecialchars(filter_var($_POST['login'])));
+			if (!preg_match("/^[a-zA-Z0-9]+$/", $_POST['login'])) {
+				$_ERROR[] = "Логин " . $_POST['login'] . " невалиден";
+			}
 		} else {
-			$_ERROR[]= "Не заполнено поле Логин";
+			$_ERROR[] = "Не заполненно поле Логин";
 		}
-		echo $login,"</br>";
-	}
-		
+
 		if (!empty(trim($_POST['email']))) {
-			$email = filter_var(trim($_POST['email']));
-			if (!preg_match("/^[a-zA-Z0-9]+$/", $email)) {
-				$_ERROR[]= "Почта ". $email. " невалиден";
+			$_POST['email'] = trim(htmlspecialchars(filter_var($_POST['email'])));
+			if (!preg_match("/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/", $_POST['email'])) {
+				$_ERROR[] = "Почта " . $_POST['email'] . " невалидна";
+			}
 		} else {
-			$_ERROR[]= "Не заполнено поле Почта";
-		}}
-		echo $email, "</br>";
+			$_ERROR[] = "Не заполненно поле E-mail";
+		}
 
 		if (!empty(trim($_POST['pwd']))) {
-			$email = filter_var(trim($_POST['pwd']));
-			if (!preg_match("/^[a-zA-Z0-9]+$/", $pwd)) {
-				$_ERROR[]= "Пароль ". $pwd. " невалиден";
+			$_POST['pwd'] = trim(htmlspecialchars(filter_var($_POST['pwd'])));
+			if (!preg_match("/^[a-zA-Z0-9]+$/", $_POST['pwd'])) {
+				$_ERROR[] = "Пароль " . $_POST['pwd'] . " невалиден";
+			}
 		} else {
-			$_ERROR[]= "Не заполнено поле Пароль";
-		}}
-		echo $pwd, "</br>";
-var_dump($_ERROR)
+			$_ERROR[] = "Не заполненно поле Пароль";
+		}
+
+		if (empty($_ERROR)) {
+			echo "<p><h2>Форма успешно заполнена</h2></p>";
+			echo "<pre>", var_dump($_POST), "<pre />";
+		} else {
+			echo "<p><h2>Ошибки в заполнении формы: </h2></p>";
+			echo "<pre>", var_dump($_ERROR), "<pre />";
+		}
+
 	?>	
 	
-
 </body>
 </html>

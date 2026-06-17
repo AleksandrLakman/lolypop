@@ -12,11 +12,52 @@
 	<h2>Загрузка файлов</h2>
 
 	<?php
-		$_ERROR = [];
 
-		// ...
+    $_ERROR = [];
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['load'])) {
+
+        if (!isset($_FILES['myfile']) || $_FILES['myfile']['error'] != 0) {
+            $_ERROR[] = "Ошибка загрузки файла";
+        } else {
+            
+            $fileTmp = $_FILES['myfile']['tmp_name'];
+            $fileName = $_FILES['myfile']['name'];
+
+            $imageType = exif_imagetype($fileTmp);
+            
+            if ($imageType === false) {
+                $_ERROR[] = "Файл не является изображением";
+            } else {
+
+                if ($imageType == IMAGETYPE_JPEG || 
+                    $imageType == IMAGETYPE_PNG || 
+                    $imageType == IMAGETYPE_BMP) {
+                    
+                    echo "<p style='color:green;'>✓ Файл успешно загружен!</p>";
+                    echo "<p>Файл: " . htmlspecialchars($fileName) . "</p>";
+
+                    $info = getimagesize($fileTmp);
+                    if ($info) {
+                        echo "<p>Размеры: " . $info[0] . "x" . $info[1] . " пикселей</p>";
+                    }
+                    
+                } else {
+                    $_ERROR[] = "Недопустимый тип файла. Разрешены: JPEG, PNG, BMP";
+                }
+            }
+        }
+
+        if (!empty($_ERROR)) {
+            echo "<p style='color:red;'>Ошибки:</p><ul>";
+            foreach ($_ERROR as $e) {
+                echo "<li style='color:red;'>$e</li>";
+            }
+            echo "</ul>";
+        }
+    }
+	
 	?>
-
 
 </body>
 </html>
